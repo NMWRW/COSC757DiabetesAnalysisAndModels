@@ -16,6 +16,12 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 
 def Analysis(df):
+    #Quick clean 
+    #Drop nulls
+    df.dropna(inplace=True)
+    #Drop duplicates
+    df.drop_duplicates(inplace=True)
+    
     print("Sample data")
     print(df.sample(5)) 
     print("Data info")     
@@ -23,10 +29,8 @@ def Analysis(df):
     print("describe")          
     print(df.describe())
 
-    # Use all numeric columns automatically
     correlation_matrix = df.corr(numeric_only=True)
 
-    # Display correlation matrix
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5)
     plt.title('Correlation Matrix')
