@@ -4,12 +4,6 @@ import seaborn as sns
 import warnings
 warnings.filterwarnings('ignore')
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler 
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import KBinsDiscretizer 
-from sklearn.model_selection import train_test_split 
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
 
 
 
@@ -37,7 +31,6 @@ def Analysis(df):
     plt.xticks(rotation=30, ha='right')
     plt.show()
 
-    '''
     # Plot distributions for all numeric columns
     for col in df.select_dtypes(include='number').columns:
         plt.figure(figsize=(10, 5))
@@ -46,7 +39,7 @@ def Analysis(df):
         plt.xlabel(col)
         plt.ylabel('Frequency')
         plt.show()
-    '''
+    
 
 #corelation matrix 
 df = pd.read_csv('Data/diabetes_012_health_indicators_BRFSS2015.csv')
