@@ -7,14 +7,21 @@ import numpy as np
 
 
 
-
-
+def countClasses(df):
+    print("Class distribution:")
+    class_column = df.columns[0]
+    class_counts = df[class_column].value_counts()
+    for class_value, count in class_counts.items():
+        print(f"Class {class_value}: {count} instances")
+ 
 def Analysis(df):
     #Quick clean 
     #Drop nulls
     df.dropna(inplace=True)
     #Drop duplicates
     df.drop_duplicates(inplace=True)
+    
+    countClasses(df)
     
     print("Sample data")
     print(df.sample(5)) 
@@ -41,10 +48,12 @@ def Analysis(df):
         plt.show()
     
 
+    
+
 #corelation matrix 
 df = pd.read_csv('Data/diabetes_012_health_indicators_BRFSS2015.csv')
-Analysis(df)
+countClasses(df)
 df = pd.read_csv('Data/diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
-Analysis(df)
+countClasses(df)
 df = pd.read_csv('Data/diabetes_binary_health_indicators_BRFSS2015.csv')
-Analysis(df)
+countClasses(df)

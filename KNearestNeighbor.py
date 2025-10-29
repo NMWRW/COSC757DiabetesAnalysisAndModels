@@ -3,56 +3,56 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import warnings
-warnings.filterwarnings('ignore')
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler  
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+from sklearn.metrics import classification_report
 
 def KNeighbor(df,graphTitle):
     print("K Nearest Neighbor Classification")
-    df = pd.read_csv('Data/diabetes_012_health_indicators_BRFSS2015.csv')
     features = ["HighBP", "HighChol", "BMI", "Age", "GenHlth", "PhysActivity", "Income", "DiffWalk"]
-    target = "Diabetes_012"
+    target = df.columns[0]  
     x = df[features]
     y = df[target]
     X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=19)
     scaler = MinMaxScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-    K = []
-    training = []
-    test = []
-    scores = {}
+    X_scaled = scaler.fit_transform(x)
+    scores = []
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test)
+    print(f"Analysis Results for {graphTitle} Dataset:")
+    print(classification_report(y_test, y_pred))
+    cm=confusion_matrix(y_test, y_pred)
+    print(cm)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+    plt.title(f'Confusion Matrix for KNN Classifier on {graphTitle} Dataset')
+    plt.show()
 
+#Find best K
+'''
     for k in range(2, 21):
-        print(f"K Value: {k}")
-        clf = KNeighborsClassifier(n_neighbors = k)
-        clf.fit(X_train, y_train)
-
-        training_score = clf.score(X_train, y_train)
-        test_score = clf.score(X_test, y_test)
-        K.append(k)
-
-        training.append(training_score)
-        test.append(test_score)
-        scores[k] = [training_score, test_score]
-        
-    for keys, values in scores.items():
-        print(keys, ':', values)
-
-    ax = sns.stripplot(x=K, y=training)  # Use x and y as keyword arguments
-    ax.set(xlabel='Values of k', ylabel='Training Score')
+        print("k=", k)
+        knn = KNeighborsClassifier(n_neighbors=k)
+        score = cross_val_score(knn, X_scaled, y, cv=5)
+        scores.append(np.mean(score))
+ 
+    sns.lineplot(x=range(2, 21), y=scores, marker='o') 
+    plt.title(f'KNN Classifier Accuracy for {graphTitle} Dataset')
+    plt.xlabel("K Values")
+    plt.ylabel("Accuracy Score")
     plt.show()
-    plt.scatter(K, training, color='k')
-    plt.scatter(K, test, color='g')
-    plt.title(f'KNN Training and Test Scores for {graphTitle} Dataset')
-    plt.show()
-    
+'''
+
+
 df = pd.read_csv('Data/diabetes_012_health_indicators_BRFSS2015.csv')
-KNeighbor(df,"Full3Classes")
-df = pd.read_csv('Data/diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
-KNeighbor(df,"50/50")
+KNeighbor(df, "012_health _indicators")
+
 df = pd.read_csv('Data/diabetes_binary_health_indicators_BRFSS2015.csv')
 KNeighbor(df,"Binary")
+
+df = pd.read_csv('Data/diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
+KNeighbor(df,"Binary 50/50 split")
