@@ -47,7 +47,6 @@ def Analysis(df):
         plt.ylabel('Frequency')
         plt.show()
     '''
-# Run analysis
 
 #corelation matrix 
 df = pd.read_csv('Data/diabetes_012_health_indicators_BRFSS2015.csv')
