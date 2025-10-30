@@ -19,11 +19,12 @@ def KNeighbor(df,graphTitle):
     y = df[target]
     X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=19)
     scaler = MinMaxScaler()
-    X_scaled = scaler.fit_transform(x)
-    scores = []
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled  = scaler.transform(X_test)
     knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X_train, y_train)
-    y_pred = knn.predict(X_test)
+    knn.fit(X_train_scaled, y_train)
+    y_pred = knn.predict(X_test_scaled)
+
     print(f"Analysis Results for {graphTitle} Dataset:")
     print(classification_report(y_test, y_pred))
     cm=confusion_matrix(y_test, y_pred)
