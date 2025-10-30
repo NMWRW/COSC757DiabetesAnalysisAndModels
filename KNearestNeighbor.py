@@ -13,7 +13,7 @@ from sklearn.metrics import classification_report
 
 def KNeighbor(df,graphTitle):
     print("K Nearest Neighbor Classification")
-    features = ["HighBP", "HighChol", "BMI", "Age", "GenHlth", "PhysActivity", "Income", "DiffWalk"]
+    features = ["HighBP", "HighChol", "BMI", "Age", "GenHlth"]#, "PhysActivity", "Income", "DiffWalk"]
     target = df.columns[0]  
     x = df[features]
     y = df[target]

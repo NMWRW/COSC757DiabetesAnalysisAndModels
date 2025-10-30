@@ -77,13 +77,7 @@ def Analysis(df,dataset):
             # Create equal-width integer bins
             bin_edges = np.linspace(min_val, max_val, num_bins + 1)
 
-            sns.histplot(
-                df[col],
-                bins=bin_edges,
-                kde=False,
-                color='skyblue',
-                edgecolor='black'
-            )
+            sns.histplot(df[col],bins=bin_edges,kde=False,color='skyblue',edgecolor='black')
             plt.title(f"{col} (Continuous) for {dataset} Dataset")
             plt.xlabel("Value")
             plt.ylabel("Frequency")
